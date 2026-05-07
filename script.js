@@ -71,3 +71,35 @@ navLinks.forEach(link => {
         }
     });
 });
+
+// --- NOVA LÓGICA DA NOTIFICAÇÃO FLUTUANTE (FALE CONOSCO / PENDENTE) ---
+document.addEventListener("DOMContentLoaded", function() {
+    const notificacaoFale = document.getElementById('notificacao-fale');
+    const closeNotif = document.getElementById('close-notif');
+    
+    if(notificacaoFale) {
+        // Mostra a notificação automaticamente após 5 segundos (5000ms)
+        // Isso gera curiosidade porque aparece do nada
+        setTimeout(function() {
+            notificacaoFale.classList.add('show');
+        }, 5000);
+        
+        // Lógica para fechar a notificação
+        if(closeNotif) {
+            closeNotif.addEventListener('click', function() {
+                notificacaoFale.classList.remove('show');
+            });
+        }
+        
+        // Opcional: Clicar no botão da notificação também a fecha (após abrir o Whats)
+        const btnNotif = notificacaoFale.querySelector('.btn-notif');
+        if(btnNotif) {
+            btnNotif.addEventListener('click', function() {
+                // Notificação some após o clique
+                setTimeout(function() {
+                    notificacaoFale.classList.remove('show');
+                }, 1000);
+            });
+        }
+    }
+});
