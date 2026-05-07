@@ -86,20 +86,88 @@ img { max-width: 100%; border-radius: 8px; display: block; }
     .inverte-mobile .area-img { order: 1; }
 }
 
-/* --- DEPOIMENTOS --- */
+/* --- DEPOIMENTOS (CARROSSEL INFINITO) --- */
 .depoimentos { padding: 80px 0; }
 .section-title { font-size: 2.8rem; margin-bottom: 15px; }
 .text-gold { color: var(--dourado); }
 .subtitle-branco { color: var(--branco); margin-bottom: 50px; font-size: 1.1rem; opacity: 0.9; }
 
-.depo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-.depo-card { background: var(--branco); padding: 40px 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; border-bottom: 4px solid var(--dourado); }
-.stars { color: var(--dourado); font-size: 1.2rem; margin-bottom: 20px; }
-.depo-card p { font-style: italic; margin-bottom: 20px; color: #555; }
-.depo-card h4 { color: var(--verde); font-weight: 700; }
+/* Wrapper do Carrossel - A MÁGICA DO LIMITE ESTÁ AQUI */
+.carousel-wrapper {
+    width: 100%;
+    max-width: 1160px; /* Prende o carrossel na largura do site */
+    margin: 0 auto;
+    overflow: hidden; /* Corta imediatamente as imagens que tentam vazar pros cantos */
+    position: relative;
+    padding: 10px 0; /* Dá um respiro para a sombra das imagens não cortar */
+}
 
-@media (max-width: 900px) {
-    .depo-grid { grid-template-columns: 1fr; }
+/* Sombras laterais (opcional, dá um efeito de fade nos cantos) */
+.carousel-wrapper::before,
+.carousel-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    z-index: 2;
+}
+.carousel-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--verde) 0%, transparent 100%);
+}
+.carousel-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--verde) 0%, transparent 100%);
+}
+
+/* Pista onde as imagens deslizam */
+.carousel-track {
+    display: flex;
+    width: max-content; /* Deixa a pista crescer de acordo com o número de imagens */
+    animation: scroll-carrossel 40s linear infinite;
+}
+
+/* Pausa a rolagem se o cliente colocar o mouse em cima para ler */
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+/* Cada Slide (Desktop: Exatamente 4 imagens) */
+.slide {
+    width: 290px; /* 1160px do site divididos por 4 imagens = 290px */
+    padding: 0 15px;
+    flex-shrink: 0;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid var(--dourado);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Animação Desktop: Puxa exatamente as 5 primeiras imagens (290px * 5) */
+@keyframes scroll-carrossel {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-290px * 5)); } 
+}
+
+/* --- Ajustes para Celular (Mostrando apenas 1 imagem por vez) --- */
+@media (max-width: 768px) {
+    .carousel-wrapper::before, .carousel-wrapper::after { width: 30px; }
+    
+    .slide { 
+        /* Largura da tela inteira menos as bordas laterais */
+        width: calc(100vw - 40px); 
+    }
+    
+    /* Animação Mobile: Puxa as 5 imagens respeitando a nova largura do celular */
+    @keyframes scroll-carrossel {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(calc((100vw - 40px) * -5)); }
+    }
 }
 
 /* --- PARCEIROS SECTION --- */
