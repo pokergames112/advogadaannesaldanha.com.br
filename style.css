@@ -39,12 +39,44 @@ img { max-width: 100%; border-radius: 8px; display: block; }
 .nav-menu li a { color: var(--branco); text-decoration: none; margin: 0 15px; font-weight: 500; font-size: 0.95rem; transition: 0.3s; }
 .nav-menu li a:hover { color: var(--dourado); }
 .btn-nav { background: var(--dourado); color: var(--verde) !important; padding: 10px 20px; border-radius: 5px; font-weight: 600 !important; }
+/* Botão Hambúrguer oculto no Desktop */
+.menu-toggle { display: none; cursor: pointer; color: var(--dourado); font-size: 1.8rem; }
 
-/* Mobile Navbar */
+/* --- Mobile Navbar Ajustada --- */
 @media (max-width: 900px) {
-    .nav-menu { display: none; } 
-    .logo-subtitle { display: none; } /* Esconde o texto longo no celular para não quebrar */
-    .logo-title { font-size: 1.2rem; }
+    /* Mostra o ícone de hambúrguer */
+    .menu-toggle { display: block; z-index: 1001; } 
+
+    /* Ajuste da Logo e Frase para caberem com o menu */
+    .logo img { height: 40px; }
+    .logo-title { font-size: 1.1rem; }
+    .logo-subtitle { 
+        display: block !important; /* Força a frase a aparecer */
+        font-size: 0.55rem; /* Letra menor para caber */
+        white-space: normal; /* Permite quebrar em duas linhas */
+        max-width: 170px; /* Evita que o texto esmague o ícone do menu */
+        line-height: 1.2;
+    }
+
+    /* Oculta o menu original e transforma em painel lateral */
+    .nav-menu { 
+        position: absolute;
+        top: 100%; /* Fica logo abaixo da barra verde */
+        left: -100%; /* Esconde pra fora da tela à esquerda */
+        flex-direction: column;
+        background-color: var(--verde);
+        width: 100%;
+        text-align: center;
+        transition: 0.4s ease-in-out;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        padding: 20px 0 30px;
+    }
+
+    /* Classe que o JavaScript vai ativar para mostrar o menu */
+    .nav-menu.active { left: 0; }
+
+    .nav-menu li { margin: 20px 0; }
+    .btn-nav { display: inline-block; margin-top: 10px; }
 }
 
 /* --- HERO SECTION --- */
